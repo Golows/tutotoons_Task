@@ -7,10 +7,11 @@ public class LineMovement : MonoBehaviour
 {
     [SerializeField] public LineRenderer lineRenderer;
     private float step;
-    private Queue<Vector3> movements = new Queue<Vector3>();
+    public Queue<Vector3> movements = new Queue<Vector3>();
     public Queue<int> lineNumber = new Queue<int>();
-    private int LineCount = 2;
+    public int LineCount = 2;
     public Vector3 oldPos;
+    public bool last = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,7 @@ public class LineMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        step = 2 * Time.deltaTime;
+        step = 3 * Time.deltaTime;
         
         if (movements.Count > 0)
         {
@@ -40,15 +41,15 @@ public class LineMovement : MonoBehaviour
                 {
                     lineRenderer.SetPosition(lineNumber.Peek() - 1, oldPos);
                 }
-
                 RemoveMoveFromQueue();
             }
         }
     }
 
-    public void AddToQueue(Vector3 newLocation)
+    public void AddToQueue(Vector3 newLocation, bool lastCheck)
     {
         movements.Enqueue(newLocation);
+        last = lastCheck;
     }
 
     private void RemoveMoveFromQueue()

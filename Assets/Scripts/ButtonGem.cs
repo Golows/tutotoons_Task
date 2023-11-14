@@ -33,10 +33,10 @@ public class ButtonGem : MonoBehaviour
             GameController.instance.LastClicked = buttonNumber;
             blue.enabled = true;
             red.enabled = false;
-            lineMovement.GetComponent<LineMovement>().AddToQueue(gameObject.transform.position);
+            lineMovement.GetComponent<LineMovement>().AddToQueue(gameObject.transform.position, false);
             if (controller.buttonsList.Count == buttonNumber)
             {
-                lineMovement.GetComponent<LineMovement>().AddToQueue(controller.buttonsList[0].transform.position);
+                lineMovement.GetComponent<LineMovement>().AddToQueue(controller.buttonsList[0].transform.position, true);
             }
         }       
     }
