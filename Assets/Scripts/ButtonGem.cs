@@ -10,11 +10,13 @@ public class ButtonGem : MonoBehaviour
     [SerializeField] public TextMeshProUGUI text;
     private int buttonNumber;
     [SerializeField] private Animator animator;
+    public GameObject lineMovement;
+    public GameController controller;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        controller = GameController.instance;
     }
 
     // Update is called once per frame
@@ -31,7 +33,12 @@ public class ButtonGem : MonoBehaviour
             GameController.instance.LastClicked = buttonNumber;
             blue.enabled = true;
             red.enabled = false;
-        }
+            lineMovement.GetComponent<LineMovement>().AddToQueue(gameObject.transform.position);
+            if (controller.buttonsList.Count == buttonNumber)
+            {
+                lineMovement.GetComponent<LineMovement>().AddToQueue(controller.buttonsList[0].transform.position);
+            }
+        }       
     }
 
     public void updateText(string number)

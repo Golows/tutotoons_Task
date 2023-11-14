@@ -495,3 +495,4 @@ MonoBehaviour:
   red: {fileID: 4852846929506304068}
   text: {fileID: 8159982178820748327}
   animator: {fileID: 2065861406138071736}
+  lineMovement: {fileID: 2722378908610862838, guid: 8a3e42928e605104f9f3d5ec29bfb1db, type: 3}

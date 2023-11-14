@@ -11,6 +11,8 @@ public class JSONReader : MonoBehaviour
 
     public Root root = new Root();
 
+    public GameController controller;
+
     public void LoadData()
     {
         root = JsonUtility.FromJson<Root>(textJSON.text);
@@ -29,13 +31,13 @@ public class JSONReader : MonoBehaviour
                     newLevel.y.Add(lvl.level_data[i]);
                 }
             }
-            GameController.instance.levels.Add(newLevel);
+            controller.levels.Add(newLevel);
         }
     }
 
-    private void Awake()
+    private void Start()
     {
-        LoadData();
+        controller = GameController.instance;
     }
 }
 
