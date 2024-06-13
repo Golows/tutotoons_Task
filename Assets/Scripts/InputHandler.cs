@@ -20,7 +20,6 @@ public class InputHandler : MonoBehaviour
         var rayHit = Physics2D.GetRayIntersection(_camera.ScreenPointToRay(Mouse.current.position.ReadValue()));
 
         if (!rayHit.collider) return;
-        //Debug.Log(rayHit.collider.gameObject.name);
 
         if(rayHit.collider.gameObject.tag == "GemButton")
             rayHit.collider.gameObject.GetComponent<ButtonGem>().Clicked();

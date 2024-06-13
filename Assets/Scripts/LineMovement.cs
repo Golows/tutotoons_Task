@@ -1,47 +1,41 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class LineMovement : MonoBehaviour
 {
-    [SerializeField] public LineRenderer lineRenderer;
-    private float step;
+    private int lineCount = 0;
     public Queue<Vector3> movements = new Queue<Vector3>();
-    public Queue<int> lineNumber = new Queue<int>();
-    public int LineCount = 2;
-    public Vector3 oldPos;
+    private float step;
+    private Vector3 newPos;
     public bool last = false;
-    // Start is called before the first frame update
-    void Start()
+    private bool first = true;
+    private GameController controller;
+
+    private void Start()
     {
-        
+        controller = GameController.instance;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        step = 3 * Time.deltaTime;
-        
         if (movements.Count > 0)
         {
-            Vector3 newPos = Vector3.MoveTowards(lineRenderer.GetPosition(lineNumber.Peek()-1), new Vector3(movements.Peek().x, movements.Peek().y, 0.5f), step);
-            lineRenderer.SetPosition(lineNumber.Peek() - 1, newPos);
-            if (movements.Peek().x == newPos.x && movements.Peek().y == newPos.y)
+            step = 3 * Time.deltaTime;
+            newPos = Vector3.MoveTowards(controller.lines[lineCount].GetPosition(1), new Vector3(movements.Peek().x, movements.Peek().y, 0.5f), step);
+            controller.lines[lineCount].SetPosition(1, newPos);
+
+            if (controller.lines[lineCount].GetPosition(1).x == movements.Peek().x && controller.lines[lineCount].GetPosition(1).y == movements.Peek().y)
             {
-                RemoveNumFromQueue();
-                oldPos = new Vector3(movements.Peek().x, movements.Peek().y, 0.5f);
-                lineNumber.Enqueue(LineCount);
-                
-                LineCount = LineCount + 1;
-
-                lineRenderer.positionCount = lineNumber.Peek();
-
-                if (lineNumber.Peek() > 0)
+                if(first)
                 {
-                    lineRenderer.SetPosition(lineNumber.Peek() - 1, oldPos);
+                    movements.Dequeue();
                 }
-                RemoveMoveFromQueue();
+                else
+                {
+                    movements.Dequeue();
+                    lineCount++;
+                }
+                first = false;
             }
         }
     }
@@ -50,14 +44,5 @@ public class LineMovement : MonoBehaviour
     {
         movements.Enqueue(newLocation);
         last = lastCheck;
-    }
-
-    private void RemoveMoveFromQueue()
-    {
-        movements.Dequeue();
-    }
-    private void RemoveNumFromQueue()
-    {
-        lineNumber.Dequeue();
     }
 }
