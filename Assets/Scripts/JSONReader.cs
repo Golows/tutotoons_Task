@@ -8,9 +8,7 @@ public class JSONReader : MonoBehaviour
 {
 
     public TextAsset textJSON;
-
     public Root root = new Root();
-
     public GameController controller;
 
     public void LoadData()
